@@ -5,7 +5,7 @@
 }
 
 <h1>Index</h1>
-
+ 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -46,13 +46,16 @@
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
+                
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Kilometer)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                <img src="@item.ImageUrl" class="h-25 w-25" />
+                 
+               
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Color)
