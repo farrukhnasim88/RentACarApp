@@ -32,6 +32,6 @@ namespace RentACarApp.Models
         [Display(Name = "Vehicle Rate")]
         public decimal RatePerDay { get; set; }
 
-        public Status VehicleStatus { get; set; }
+        public virtual Status VehicleStatus { get; set; }
     }
 }

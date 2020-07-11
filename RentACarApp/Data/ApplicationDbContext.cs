@@ -19,7 +19,9 @@ namespace RentACarApp.Data
 
         public DbSet <Vehicle> Vehicles { get; set; }
         public DbSet <Status> Status { get; set; }
-
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
 
 

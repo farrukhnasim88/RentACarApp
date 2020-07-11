@@ -12,28 +12,20 @@ namespace RentACarApp.Models
     {
 
         public int Id { get; set; }
-        
-        [Required(ErrorMessage ="Please Enter First Name")]
-        [DisplayName("First Name")]
-        public string FirstName { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime HireDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ReturnDate { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Last Name")]
-        [DisplayName("Last Name")]
-        public string LastName { get; set; }
+        public int LocationId { get; set; }
+        public int VehicleId { get; set; }
+        public int CustomerId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Driver Licence")]
-        [Display(Name ="Driver Licence")]
+        public Location Location { get; set; }
+        public Vehicle Vehicle { get; set; }
+       
 
-        public int Licence { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Address")]
-        [Display(Name = "Driver Licence")]
-        public string Address {get;set;}
 
-        [Required(ErrorMessage = "Please Enter Telephone Number")]
-        [Display(Name = "Driver Licence")]
-        public string Telephone { get; set; }
-
-        public Vehicle BookingVehicle { get; set; }
     }
 }
