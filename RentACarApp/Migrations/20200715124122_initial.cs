@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RentACarApp.Migrations
 {
-    public partial class fixes : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,11 +64,18 @@ namespace RentACarApp.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     Color = table.Column<string>(nullable: false),
                     RatePerDay = table.Column<decimal>(nullable: false),
-                    VehicleStatusId = table.Column<int>(nullable: true)
+                    VehicleStatusId = table.Column<int>(nullable: true),
+                    LocationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_Status_VehicleStatusId",
                         column: x => x.VehicleStatusId,
@@ -128,6 +135,11 @@ namespace RentACarApp.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_LocationId",
+                table: "Vehicles",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_VehicleStatusId",
                 table: "Vehicles",
                 column: "VehicleStatusId");
@@ -142,10 +154,10 @@ namespace RentACarApp.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Vehicles");
 
             migrationBuilder.DropTable(
-                name: "Vehicles");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Status");

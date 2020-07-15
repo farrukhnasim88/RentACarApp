@@ -14,7 +14,7 @@ namespace RentACarApp.Models
         public string Address { get; set; }
 
         //public List<Customer> Customers { get; set; }
-        //public List<Vehicle> Vehicles { get; set; }
+        public List<Vehicle> Vehicles { get; set; }
 
     }
 

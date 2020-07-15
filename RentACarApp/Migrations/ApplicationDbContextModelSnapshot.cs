@@ -129,6 +129,9 @@ namespace RentACarApp.Migrations
                     b.Property<int>("Kilometer")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,6 +150,8 @@ namespace RentACarApp.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("VehicleStatusId");
 
@@ -176,6 +181,10 @@ namespace RentACarApp.Migrations
 
             modelBuilder.Entity("RentACarApp.Models.Vehicle", b =>
                 {
+                    b.HasOne("RentACarApp.Models.Location", null)
+                        .WithMany("Vehicles")
+                        .HasForeignKey("LocationId");
+
                     b.HasOne("RentACarApp.Models.Status", "VehicleStatus")
                         .WithMany()
                         .HasForeignKey("VehicleStatusId");

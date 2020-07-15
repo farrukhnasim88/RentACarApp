@@ -37,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Location.Id)
+                @Html.DisplayFor(modelItem => item.Location.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Vehicle.Color)
+                @Html.DisplayFor(modelItem => item.Vehicle.Make)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

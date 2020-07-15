@@ -7,85 +7,52 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RentACarApp.Data;
 using RentACarApp.Models;
+using RentACarApp.Service;
 
 namespace RentACarApp.Controllers
 {
     public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly RentingService _service;
 
-        public BookingsController(ApplicationDbContext context)
+        public BookingsController(ApplicationDbContext context, RentingService service)
         {
             _context = context;
+            _service = service;
         }
-
-        public async Task<IActionResult> GetVehicles()
+        
+        public async Task<IActionResult> GetBooking()
         {
             ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("GetVehicles")]
         [ValidateAntiForgeryToken]
+        
 
-        public async Task<IActionResult> GetVehicles([Bind("Id,HireDate,ReturnDate,LocationId")] Booking booking)
+      //  public async Task<IActionResult> GetVehicles([Bind("Id,HireDate,ReturnDate,LocationId")] Booking booking)
+        public async Task<IActionResult> GetVehiclesPost(Booking booking)
         {
             if (ModelState.IsValid)
             {
-
                 var hdate = booking.HireDate;
                 var rdate = booking.ReturnDate;
                 var location = booking.LocationId;
 
-                var existingBookings = _context.Bookings.Include(b => b.Vehicle).Include(b => b.Location);
-                List<int> abc = _context.Bookings.Where(o => o.HireDate <= hdate && o.ReturnDate >= hdate).Select(o => o.Vehicle.Id).ToList();
-                List<int> alredyBookedCars = new List<int>();
-                if (existingBookings != null && existingBookings.Count() > 0)
-                {
-                    foreach (Booking b in existingBookings)
-                    {
-                        //if the hdate falls between an existing booking that means the booking's car is not available
-                        if (hdate >= b.HireDate && hdate <= b.ReturnDate)
-                        {
-                            alredyBookedCars.Add(b.Vehicle.Id);
-                        }
-                    }
-                }
-                List<Vehicle> allCars = _context.Vehicles.ToList();
-                List<Vehicle> availableCars = new List<Vehicle>();
-                if (allCars != null && allCars.Count > 0)
-                {
-                    foreach (Vehicle car in allCars)
-                    {
-                        if (alredyBookedCars.Contains(car.Id))
-                        { 
-                        }
-                        else
-                        {
-                            availableCars.Add(car);
-                        }
-                    }
-                }
-                //var existingBookings = _context.Bookings.Where(o => o.HireDate =)
-                var g = 9;
 
-              
-
-
-
-
+                var vehicles = _service.GetAvailableVehicles(booking).ToList();
+               return View("~/Views/Bookings/GetVehiclesPost.cshtml", vehicles);
 
                  
+                 // return View(vehicles);
             }
-        
+
 
             return View(booking);
+
         }
-
-
-
-
-
 
         // GET: Bookings
         public async Task<IActionResult> Index()
@@ -117,7 +84,7 @@ namespace RentACarApp.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Id");
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id");
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
 
