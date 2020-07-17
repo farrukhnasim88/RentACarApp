@@ -19,6 +19,9 @@ namespace RentACarApp.Controllers
             _context = context;
         }
 
+
+         
+
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {

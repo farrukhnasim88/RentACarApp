@@ -37,7 +37,7 @@ namespace RentACarApp.Data
             var vehicles = new Vehicle[]
            {
                 new Vehicle { Make = "Toyota",   Model="Corolla",
-                    Color ="Yellow", Kilometer=11192, Year=2015, RatePerDay=100, ImageUrl="/images/corolla.jpg" },
+                    Color ="Yellow", Kilometer=11192, Year=2015, RatePerDay=100, ImageUrl="/images/corolla.jpg",  },
                  new Vehicle { Make = "Toyota",   Model="Corolla",
                     Color ="White", Kilometer=111262, Year=2016, RatePerDay=90, ImageUrl="/images/corolla1.jpg" },
                   new Vehicle { Make = "Toyota",   Model="Corolla",

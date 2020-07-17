@@ -7,6 +7,10 @@ namespace RentACarApp.Models
 {
     public class Location
     {
+        public Location()
+        {
+            Vehicles = new List<Vehicle>();
+        }
         public int Id { get; set; }
 
         public string Name { get; set; }

@@ -40,15 +40,13 @@ namespace RentACarApp.Controllers
                 var hdate = booking.HireDate;
                 var rdate = booking.ReturnDate;
                 var location = booking.LocationId;
-
-
-                var vehicles = _service.GetAvailableVehicles(booking).ToList();
-               return View("~/Views/Bookings/GetVehiclesPost.cshtml", vehicles);
-
+                var b = _context.Bookings.ToList();
+                
+                List<Vehicle> v = _service.FindAvailableVehicles(booking, b);
                  
-                 // return View(vehicles);
+               return View("~/Views/Bookings/GetVehiclesPost.cshtml", v);
+                
             }
-
 
             return View(booking);
 

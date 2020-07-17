@@ -33,5 +33,6 @@ namespace RentACarApp.Models
         public decimal RatePerDay { get; set; }
 
         public virtual Status VehicleStatus { get; set; }
+        public int LocationId { get; set; }
     }
 }

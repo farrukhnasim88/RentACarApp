@@ -81,6 +81,54 @@ namespace RentACarApp.Service
 
         }
 
+        public List<int> FindOverlapBookingsId(DateTime HireDate, DateTime ReturnDate, IEnumerable<Booking> existingBookings)
+        {
+            List<int> existingId = new List<int>();
+            var existingBookedVehicles = 0;
+
+            foreach (var existingBooking in existingBookings)
+            {
+                // This is only if existingTimeBlocks are ordered. It is only
+                // a speedup
+                if (HireDate > existingBooking.ReturnDate)
+                {
+
+                   // do nothing
+                    
+                }
+
+                // This is the real check. The ordering of the existingTimeBlocks
+                // is irrelevant
+                if (HireDate <= existingBooking.ReturnDate && ReturnDate >= existingBooking.HireDate)
+                {
+                    existingId.Add(existingBooking.VehicleId);
+                }
+            }
+            return existingId;
+        }
+
+
+        public List<Vehicle> FindAvailableVehicles(Booking booking, IEnumerable<Booking> bookings)
+        {
+           List<int> ids= FindOverlapBookingsId(booking.HireDate, booking.ReturnDate, bookings);
+            List<Vehicle> allVehicls = new List<Vehicle>();
+            allVehicls = _context.Vehicles.ToList();
+
+            List<Vehicle> availableVehicles = new List<Vehicle>();
+
+            for (int i = 0; i < ids.Count(); i++)
+            {
+                var vRemove = allVehicls.SingleOrDefault(v => v.Id == ids[i]);
+                if (vRemove != null)
+                {
+                    allVehicls.Remove(vRemove);
+                }
+            }
+
+            return allVehicls;
+
+
+        }
 
     }
 }
