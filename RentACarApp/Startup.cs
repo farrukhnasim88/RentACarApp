@@ -26,7 +26,9 @@ namespace RentACarApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // registering service layer , depend inj
             services.AddScoped<RentingService, RentingService>();
+            //registering DbContext 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

@@ -16,24 +16,25 @@ namespace RentACarApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly RentingService _service;
 
+        // dependies inj
         public BookingsController(ApplicationDbContext context, RentingService service)
         {
             _context = context;
             _service = service;
         }
         
+        // Get Booking Date and Locations
         public async Task<IActionResult> GetBooking()
         {
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
+
+            ViewData["LocationId"] =  new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
 
-        [HttpPost, ActionName("GetVehicles")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        
-
-      //  public async Task<IActionResult> GetVehicles([Bind("Id,HireDate,ReturnDate,LocationId")] Booking booking)
-        public async Task<IActionResult> GetVehiclesPost(Booking booking)
+       
+        public async Task<IActionResult> GetBookingPost([Bind ("Id", "HireDate", "ReturnDate", "LocationId") ]   Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -41,15 +42,23 @@ namespace RentACarApp.Controllers
                 var rdate = booking.ReturnDate;
                 var location = booking.LocationId;
                 var b = _context.Bookings.ToList();
+                ViewBag.HireDate = hdate;
+                ViewBag.ReturnDate = rdate;
+                ViewBag.LocationId = location;
                 
-                List<Vehicle> v = _service.FindAvailableVehicles(booking, b);
+                List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking, b, location);
                  
-               return View("~/Views/Bookings/GetVehiclesPost.cshtml", v);
+               return View("~/Views/Bookings/GetBookingPost.cshtml", availableVehicles.ToList());
                 
             }
 
             return View(booking);
 
+        }
+
+        public IActionResult Confirm()
+        {
+            return View();
         }
 
         // GET: Bookings
