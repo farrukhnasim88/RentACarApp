@@ -50,7 +50,7 @@ namespace RentACarApp.Service
             return existingId;
         }
 
-        //Find Vehicles that do not have booking by location
+        //Find Vehicles that do not have booking by location 
         public List<Vehicle> FindAvailableVehicles(Booking booking, IEnumerable<Booking> bookings, int locationId)
         {
            List<int> ids= FindOverlapBookingsId(booking.HireDate, booking.ReturnDate, bookings);
