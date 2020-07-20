@@ -34,11 +34,11 @@ namespace RentACarApp.Service
             return _context.Vehicles.FirstOrDefault(v => v.Id == id);
 
         }
-
+        // this method will find existing bookings Vehicle Ids
         public List<int> FindOverlapBookingsId(DateTime HireDate, DateTime ReturnDate, IEnumerable<Booking> existingBookings)
         {
             List<int> existingId = new List<int>();
-
+             
             foreach (var existingBooking in existingBookings)
             {
                 
@@ -50,22 +50,11 @@ namespace RentACarApp.Service
             return existingId;
         }
 
-
+        //Find Vehicles that do not have booking by location
         public List<Vehicle> FindAvailableVehicles(Booking booking, IEnumerable<Booking> bookings, int locationId)
         {
            List<int> ids= FindOverlapBookingsId(booking.HireDate, booking.ReturnDate, bookings);
-            List<Vehicle> allVehicls = new List<Vehicle>();
-            allVehicls = _context.Vehicles.Where(l => l.LocationId== locationId).ToList();
-
-            for (int i = 0; i < ids.Count(); i++)
-            {
-                var vRemove = allVehicls.SingleOrDefault(v => v.Id == ids[i]);
-                if (vRemove != null)
-                {
-                    allVehicls.Remove(vRemove);
-                }
-            }
-
+            List<Vehicle> allVehicls = _context.Vehicles.Where(p => p.LocationId==locationId && !ids.Any(q => q == p.Id)).ToList();
             return allVehicls;
 
         }

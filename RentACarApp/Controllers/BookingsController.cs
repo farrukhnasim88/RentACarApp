@@ -24,6 +24,7 @@ namespace RentACarApp.Controllers
         }
         
         // Get Booking Date and Locations
+        [HttpGet]
         public async Task<IActionResult> GetBooking()
         {
 
@@ -34,7 +35,7 @@ namespace RentACarApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
        
-        public async Task<IActionResult> GetBookingPost([Bind ("Id", "HireDate", "ReturnDate", "LocationId") ]   Booking booking)
+        public async Task<IActionResult> GetBookingPost( Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -42,8 +43,8 @@ namespace RentACarApp.Controllers
                 var rdate = booking.ReturnDate;
                 var location = booking.LocationId;
                 var b = _context.Bookings.ToList();
-                ViewBag.HireDate = hdate;
-                ViewBag.ReturnDate = rdate;
+                ViewBag.HireDate = hdate.Ticks;
+                ViewBag.ReturnDate = rdate.Ticks;
                 ViewBag.LocationId = location;
                 
                 List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking, b, location);
@@ -55,10 +56,21 @@ namespace RentACarApp.Controllers
             return View(booking);
 
         }
-
-        public IActionResult Confirm()
+        
+        public IActionResult Confirm(int vehicleId, string hdate , string rdate, int location)
         {
-            return View();
+            Booking booking = new Booking();
+            booking.HireDate = new DateTime(long.Parse(hdate));
+            booking.ReturnDate = new DateTime(long.Parse(rdate));
+            booking.LocationId = location;
+            booking.VehicleId = vehicleId;
+            booking.CustomerId = 3;
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+
+
+            
         }
 
         // GET: Bookings
