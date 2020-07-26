@@ -9,14 +9,18 @@ namespace RentACarApp.Service
 {
     public class RentingService
     { 
-        private readonly ApplicationDbContext _context;
+        private readonly RentACarAppDbContext _context;
 
-        public RentingService(ApplicationDbContext context)
+        public RentingService(RentACarAppDbContext context)
         {
             _context = context;
         }
 
-        
+        public List<Booking> GetBookingsByCustomerId(string id)
+        {
+            var bookings = _context.Bookings.Where (b => b.Id.Equals( id));
+            return bookings.ToList();
+        }
         public List<Booking> GetAllBookings()
         {
             return _context.Bookings.ToList();

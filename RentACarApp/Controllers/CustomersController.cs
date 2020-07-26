@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RentACarApp.Data;
 using RentACarApp.Models;
@@ -12,9 +10,10 @@ namespace RentACarApp.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
+        private readonly RentACarAppDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(RentACarAppDbContext context)
         {
             _context = context;
         }

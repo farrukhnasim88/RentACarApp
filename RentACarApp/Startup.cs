@@ -29,9 +29,10 @@ namespace RentACarApp
             // registering service layer , depend inj
             services.AddScoped<RentingService, RentingService>();
             //registering DbContext 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(
+            //            Configuration.GetConnectionString("DefaultConnection")));
+            services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -52,7 +53,7 @@ namespace RentACarApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -60,6 +61,7 @@ namespace RentACarApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

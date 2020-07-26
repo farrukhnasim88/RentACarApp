@@ -12,9 +12,9 @@ namespace RentACarApp.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RentACarAppDbContext _context;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(RentACarAppDbContext context)
         {
             _context = context;
         }

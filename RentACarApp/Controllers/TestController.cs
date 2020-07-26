@@ -12,9 +12,9 @@ namespace RentACarApp.Controllers
 {
     public class TestController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RentACarAppDbContext _context;
 
-        public TestController(ApplicationDbContext context)
+        public TestController(RentACarAppDbContext context)
         {
             _context = context;
         }

@@ -22,7 +22,7 @@ namespace RentACarApp
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var context = services.GetRequiredService<RentACarAppDbContext>();
                     DbInitializer.VehicleInitializer(context);
                 }
                 catch (Exception ex)

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
 using RentACarApp.Models;
 using RentACarApp.Service;
@@ -13,21 +15,34 @@ namespace RentACarApp.Controllers
 {
     public class BookingsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RentACarAppDbContext _context;
         private readonly RentingService _service;
+        private readonly UserManager<RentACarAppUser> _userManager;
 
         // dependies inj
-        public BookingsController(ApplicationDbContext context, RentingService service)
+        public BookingsController(RentACarAppDbContext context, RentingService service, UserManager<RentACarAppUser> userManager )
         {
             _context = context;
             _service = service;
+            _userManager = userManager;
         }
-        
+
+        public async Task<IActionResult> Index1()
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                        
+            string a = user.Id;
+            var r = _service.GetBookingsByCustomerId(a);
+
+
+            return View("Index", r);
+        }
+
         // Get Booking Date and Locations
         [HttpGet]
         public async Task<IActionResult> GetBooking()
         {
-
+            // Get all locations from db
             ViewData["LocationId"] =  new SelectList(_context.Locations, "Id", "Name");
             return View();
         }
@@ -68,8 +83,6 @@ namespace RentACarApp.Controllers
             _context.Bookings.Add(booking);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
-
-
             
         }
 

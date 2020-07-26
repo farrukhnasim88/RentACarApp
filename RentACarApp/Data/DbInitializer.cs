@@ -8,7 +8,7 @@ namespace RentACarApp.Data
 {
     public class DbInitializer
     {
-        public static void VehicleInitializer(ApplicationDbContext context)
+        public static void VehicleInitializer(RentACarAppDbContext context)
         {
             context.Database.EnsureCreated();
 
