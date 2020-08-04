@@ -18,7 +18,7 @@ namespace RentACarApp.Models
         [Required]
         public int LocationId { get; set; }
         public int VehicleId { get; set; }
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public Location Location { get; set; }
         public Vehicle Vehicle { get; set; }

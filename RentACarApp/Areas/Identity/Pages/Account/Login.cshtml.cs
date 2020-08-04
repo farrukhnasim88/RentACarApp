@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RentACarApp.Areas.Identity.Data;
+using System.Text;
 
 namespace RentACarApp.Areas.Identity.Pages.Account
 {
@@ -68,14 +69,20 @@ namespace RentACarApp.Areas.Identity.Pages.Account
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
+            HttpContext.Session.Set("TheReturnURL", Encoding.ASCII.GetBytes(returnUrl));
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-
+            //returnUrl = returnUrl ?? Url.Content("~/Bookings/Index1");
+            byte[] fromSession;
+            bool result1 = HttpContext.Session.TryGetValue("TheReturnURL", out fromSession);
+            if (result1)
+            {
+                returnUrl = Encoding.ASCII.GetString(fromSession);
+                returnUrl = returnUrl ?? Url.Content("~/");
+            }
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout

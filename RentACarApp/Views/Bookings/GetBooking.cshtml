@@ -43,3 +43,15 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script>
+    (function () {
+        if (typeof (Storage) !== 'undefined') {
+            localStorage.setItem('MyVehicleId', 'ABC909');
+            alert('added');
+            alert('getting from browser session ' + localStorage.getItem('MyVehicleId'));
+        } else {
+            alert('no storage available');
+        }
+
+    })();
+</script>

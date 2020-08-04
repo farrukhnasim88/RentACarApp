@@ -9,7 +9,7 @@ namespace RentACarApp.Models
     public class Customer
     {
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Display(Name ="First Name")]
         public string FirstName { get; set; }
         [Display(Name ="Last Name")]

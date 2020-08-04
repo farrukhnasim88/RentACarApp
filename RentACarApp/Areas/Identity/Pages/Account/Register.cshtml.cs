@@ -114,6 +114,7 @@ namespace RentACarApp.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     var customer = new Customer
                     {
+                        Id = user.Id,
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         Address = Input.Address,

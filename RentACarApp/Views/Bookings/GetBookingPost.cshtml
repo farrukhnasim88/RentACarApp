@@ -79,6 +79,10 @@
                     @Html.DisplayFor(modelItem => item.RatePerDay)
                 </td>
                 <td>
+                    @{ 
+                        var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id;
+                    }
+                    <a id="login"  asp-route-returnurl="@myreturnurl" asp-route-vehicleId="BAC123" asp-area="Identity" asp-page="/Account/Login">Checkout</a> |
                     <a asp-action="Confirm" asp-route-vehicleId="@item.Id" asp-route-hdate="@ViewBag.HireDate" asp-route-rdate="@ViewBag.ReturnDate" asp-route-location="@ViewBag.LocationId">Confirm</a> |
                     <a asp-action="GetBookingPost" asp-route-id="@item.Id">Back</a> |
 
@@ -87,3 +91,4 @@
         }
     </tbody>
 </table>
+
