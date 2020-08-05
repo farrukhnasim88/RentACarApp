@@ -2,14 +2,14 @@
 
 @{
     ViewData["Title"] = "GetVehiclesPost";
+    int days = @ViewBag.TotalDays;
 }
 
-<h1>Select Vehicle</h1>
+<h1>Select Your Vehicle</h1>
 
-<p>
-    <a asp-action="Create"> Vehicle</a>
-</p>
+ 
 
+<h1>@ViewBag.TotalDays</h1>
 
 @using (Html.BeginForm("Confirm", "Bookings"))
 {
@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.Color)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RatePerDay)
+                Price
             </th>
             <th></th>
         </tr>
@@ -76,15 +76,16 @@
                     @Html.DisplayFor(modelItem => item.Color)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RatePerDay)
+                    @(item.RatePerDay * days)
+                  
                 </td>
                 <td>
                     @{ 
                         var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id;
                     }
-                    <a id="login"  asp-route-returnurl="@myreturnurl" asp-route-vehicleId="BAC123" asp-area="Identity" asp-page="/Account/Login">Checkout</a> |
-                    <a asp-action="Confirm" asp-route-vehicleId="@item.Id" asp-route-hdate="@ViewBag.HireDate" asp-route-rdate="@ViewBag.ReturnDate" asp-route-location="@ViewBag.LocationId">Confirm</a> |
-                    <a asp-action="GetBookingPost" asp-route-id="@item.Id">Back</a> |
+                    <a id="login"  asp-route-returnurl="@myreturnurl" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a> 
+                    @*<a asp-action="Confirm" asp-route-vehicleId="@item.Id" asp-route-hdate="@ViewBag.HireDate" asp-route-rdate="@ViewBag.ReturnDate" asp-route-location="@ViewBag.LocationId">Confirm</a> |
+                    <a asp-action="GetBookingPost" asp-route-id="@item.Id">Back</a>*@ 
 
                 </td>
             </tr>

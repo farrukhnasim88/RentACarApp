@@ -61,7 +61,8 @@ namespace RentACarApp.Controllers
                 HttpContext.Session.SetString("ReturnDate", rdate.ToString());
                 HttpContext.Session.SetString("HireDate", rdate.ToString());
                 HttpContext.Session.SetString("Location", location.ToString());
-
+                int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days;
+                ViewBag.TotalDays = days;
                 
                 var allBookings = _context.Bookings.ToList();
                // ViewBag.HireDate = hdate.Ticks;
@@ -83,13 +84,17 @@ namespace RentACarApp.Controllers
 
         }
 
-        public async Task<IActionResult> MyConfirm(string vehicleId)
+        public async Task<IActionResult> MyConfirm(string VehicleId)
         {
-            string abc = vehicleId;
+            string abc = VehicleId;
+            int vehicleId = int.Parse(VehicleId);
+            Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
             Booking booking = new Booking();
             booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
+
+
             return null;
         }
         public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
