@@ -109,20 +109,23 @@ namespace RentACarApp.Controllers
         }
 
         // After login or Register 
-        public async Task<IActionResult> MyConfirm(string VehicleId , string price)
+        public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
-            
-            decimal bookingPrice =decimal.Parse(price);
+            HttpContext.Session.SetString("VehicelId", VehicleId);
+            HttpContext.Session.SetString("Price", price);
             int vehicleId = int.Parse(VehicleId);
+            decimal bookingPrice = decimal.Parse(price);
+            ViewBag.Price = bookingPrice;
+
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
-            Booking booking = new Booking();
+            // Booking booking = new Booking();
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
 
-
-            return null;
+            return View(selectedVehicel);
         }
+             
         public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
