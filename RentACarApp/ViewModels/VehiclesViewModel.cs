@@ -36,13 +36,7 @@ namespace RentACarApp.ViewModels
         public int LocationId { get; set; }
 
         public int Days { get; set; }
-        //public decimal Price
-        //{
-        //    get
-        //    {
-        //        return RatePerDay * Days;
-        //    }
-        //}
+       
         public decimal Price { get; set; }
 
     }

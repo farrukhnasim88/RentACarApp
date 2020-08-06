@@ -1,4 +1,5 @@
-﻿using RentACarApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RentACarApp.Data;
 using RentACarApp.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,12 @@ namespace RentACarApp.Service
             _context = context;
         }
 
+        public List<Booking> GetAllBooking()
+        {
+            var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle).ToList();
+            return applicationDbContext;
+        }
+      
         public List<Booking> GetBookingsByCustomerId(string id)
         {
             var bookings = _context.Bookings.Where (b => b.Id.Equals( id));

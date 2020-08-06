@@ -32,15 +32,12 @@ namespace RentACarApp.Controllers
         public async Task<IActionResult> Index1()
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-                  
             string a = user.Id;
             var r = _service.GetBookingsByCustomerId(a);
-
-
             return View("Index", r);
         }
 
-        // Get Booking Date and Locations
+        // Get Booking Dates and Locations
         [HttpGet]
         public async Task<IActionResult> GetBooking()
         {
@@ -63,16 +60,8 @@ namespace RentACarApp.Controllers
                 HttpContext.Session.SetString("HireDate", rdate.ToString());
                 HttpContext.Session.SetString("Location", location.ToString());
                 int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days;
-                                
-                var allBookings = _context.Bookings.ToList();
-               // ViewBag.HireDate = hdate.Ticks;
-                //ViewBag.ReturnDate = rdate.Ticks;
-                //ViewBag.LocationId = location;
-                //string name = HttpContext.Session.GetString("FirstName");
-               // string r = HttpContext.Session.GetString("HireDate");
-                //DateTime t = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-                //booking.ReturnDate = t;
-                
+
+                var allBookings = _service.GetAllBookings();
                 
                 List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking,allBookings, location);
 
@@ -96,11 +85,7 @@ namespace RentACarApp.Controllers
 
                 }
 
-                var g = 9;
-
                 return View(vehiclesViewModels);
-
-              // return View("~/Views/Bookings/GetBookingPost.cshtml", availableVehicles.ToList());
                 
             }
 
@@ -118,7 +103,7 @@ namespace RentACarApp.Controllers
             ViewBag.Price = bookingPrice;
 
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
-            // Booking booking = new Booking();
+            
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
@@ -130,10 +115,6 @@ namespace RentACarApp.Controllers
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Booking booking = new Booking();
-            //   booking.HireDate = new DateTime(long.Parse(hdate));
-            //  booking.ReturnDate = new DateTime(long.Parse(rdate));
-            // booking.LocationId = location;
-            //booking.VehicleId = vehicleId;
             booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
@@ -148,8 +129,8 @@ namespace RentACarApp.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext =  _service.GetAllBooking();
+            return View( applicationDbContext);
         }
 
         // GET: Bookings/Details/5
