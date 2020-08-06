@@ -11,6 +11,7 @@ using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
 using RentACarApp.Models;
 using RentACarApp.Service;
+using RentACarApp.ViewModels;
 
 namespace RentACarApp.Controllers
 {
@@ -62,8 +63,7 @@ namespace RentACarApp.Controllers
                 HttpContext.Session.SetString("HireDate", rdate.ToString());
                 HttpContext.Session.SetString("Location", location.ToString());
                 int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days;
-                ViewBag.TotalDays = days;
-                
+                                
                 var allBookings = _context.Bookings.ToList();
                // ViewBag.HireDate = hdate.Ticks;
                 //ViewBag.ReturnDate = rdate.Ticks;
@@ -75,8 +75,32 @@ namespace RentACarApp.Controllers
                 
                 
                 List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking,allBookings, location);
-                 
-               return View("~/Views/Bookings/GetBookingPost.cshtml", availableVehicles.ToList());
+
+
+                List<VehiclesViewModel> vehiclesViewModels = new List<VehiclesViewModel>();
+
+                foreach (var vehicle in availableVehicles)
+                {
+                    VehiclesViewModel vvm = new VehiclesViewModel();
+                    vvm.Id = vehicle.Id;
+                    vvm.Make = vehicle.Make;
+                    vvm.Model = vehicle.Model;
+                    vvm.Year = vehicle.Year;
+                    vvm.ImageUrl = vehicle.ImageUrl;
+                    vvm.Color = vehicle.Color;
+                    vvm.Kilometer = vehicle.Kilometer;
+                    vvm.RatePerDay = vehicle.RatePerDay;
+                    vvm.Days = days;
+                    vvm.Price = vvm.RatePerDay * vvm.Days;
+                    vehiclesViewModels.Add(vvm);
+
+                }
+
+                var g = 9;
+
+                return View(vehiclesViewModels);
+
+              // return View("~/Views/Bookings/GetBookingPost.cshtml", availableVehicles.ToList());
                 
             }
 
@@ -84,15 +108,17 @@ namespace RentACarApp.Controllers
 
         }
 
-        public async Task<IActionResult> MyConfirm(string VehicleId)
+        // After login or Register 
+        public async Task<IActionResult> MyConfirm(string VehicleId , string price)
         {
-            string abc = VehicleId;
+            
+            decimal bookingPrice =decimal.Parse(price);
             int vehicleId = int.Parse(VehicleId);
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
             Booking booking = new Booking();
-            booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-            booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
-            booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
+            //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
+            //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
+            //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
 
 
             return null;

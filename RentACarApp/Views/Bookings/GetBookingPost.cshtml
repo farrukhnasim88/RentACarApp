@@ -1,26 +1,17 @@
-﻿@model IEnumerable<RentACarApp.Models.Vehicle>
+﻿@model IEnumerable<RentACarApp.ViewModels.VehiclesViewModel>
 
 @{
-    ViewData["Title"] = "GetVehiclesPost";
-    int days = @ViewBag.TotalDays;
+    ViewData["Title"] = "GetBookingPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Select Your Vehicle</h1>
+<h1>Available Vehicle List</h1>
 
  
-
-<h1>@ViewBag.TotalDays</h1>
-
-@using (Html.BeginForm("Confirm", "Bookings"))
-{
-    <input type="hidden"  value="@ViewBag.HireDate" id="HireDate"  />
-    <input type="hidden" value="@ViewBag.ReturnDate" id="ReturnDate" name="HireDate" />
-    <input type="hidden"  value="@ViewBag.LocationId" id="locationId"  name="locationId"/>
-}
-
 <table class="table">
     <thead>
         <tr>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Make)
             </th>
@@ -34,62 +25,50 @@
                 @Html.DisplayNameFor(model => model.Kilometer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                Image
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
             <th>
-                Price
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th></th>
         </tr>
-        <tr>
-            <td>
-                <input type="hidden" value="@ViewBag.HireDate" id="HireDate" />
-                <input type="hidden" value="@ViewBag.ReturnDate" id="ReturnDate" name="HireDate" />
-                <input type="hidden" value="@ViewBag.LocationId" id="locationId" name="locationId" />
-            </td>
-        </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Make)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kilometer)
+            </td>
+            <td>
+                <img src="@item.ImageUrl" class="w-50 h-50" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @{
+                    var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id + "&" + "Price=" + @item.Price;
+                }
+                <a id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a>
+            </td>
+        </tr>
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kilometer)
-                </td>
-                <td>
-                    <img src="@item.ImageUrl" class="w-50 h-50" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-                <td>
-                    @(item.RatePerDay * days)
-                  
-                </td>
-                <td>
-                    @{ 
-                        var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id;
-                    }
-                    <a id="login"  asp-route-returnurl="@myreturnurl" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a> 
-                    @*<a asp-action="Confirm" asp-route-vehicleId="@item.Id" asp-route-hdate="@ViewBag.HireDate" asp-route-rdate="@ViewBag.ReturnDate" asp-route-location="@ViewBag.LocationId">Confirm</a> |
-                    <a asp-action="GetBookingPost" asp-route-id="@item.Id">Back</a>*@ 
-
-                </td>
-            </tr>
-        }
+}
     </tbody>
 </table>
-
