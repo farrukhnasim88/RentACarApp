@@ -57,14 +57,13 @@ namespace RentACarApp.Controllers
                 var rdate = booking.ReturnDate;
                 var location = booking.LocationId;
                 HttpContext.Session.SetString("ReturnDate", rdate.ToString());
-                HttpContext.Session.SetString("HireDate", rdate.ToString());
+                HttpContext.Session.SetString("HireDate", hdate.ToString());
                 HttpContext.Session.SetString("Location", location.ToString());
                 int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days;
 
                 var allBookings = _service.GetAllBookings();
                 
                 List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking,allBookings, location);
-
 
                 List<VehiclesViewModel> vehiclesViewModels = new List<VehiclesViewModel>();
 
@@ -103,12 +102,24 @@ namespace RentACarApp.Controllers
             ViewBag.Price = bookingPrice;
 
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
+            VehicleModel vm = new VehicleModel();
+            vm.HireDate= DateTime.Parse(HttpContext.Session.GetString("HireDate"));
+            vm.ReturnDate= DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
+            vm.Make = selectedVehicel.Make;
+            vm.Model = selectedVehicel.Model;
+            vm.Year = selectedVehicel.Year;
+            vm.Kilometer = selectedVehicel.Kilometer;
+            vm.Color = selectedVehicel.Color;
+            vm.Fee = bookingPrice;
+            vm.ImageUrl = selectedVehicel.ImageUrl;
             
+
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
 
-            return View(selectedVehicel);
+            //return View(selectedVehicel);
+            return View (vm);
         }
              
         public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
