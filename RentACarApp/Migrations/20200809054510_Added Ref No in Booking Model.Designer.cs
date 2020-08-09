@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentACarApp.Data;
 
 namespace RentACarApp.Migrations
 {
     [DbContext(typeof(RentACarAppDbContext))]
-    partial class RentACarAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200809054510_Added Ref No in Booking Model")]
+    partial class AddedRefNoinBookingModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -17,6 +17,7 @@ namespace RentACarApp.Models
         public DateTime ReturnDate { get; set; }
         [Required]
         public int LocationId { get; set; }
+        public int RefrenceNo { get; set; }
         public int VehicleId { get; set; }
         public string CustomerId { get; set; }
 

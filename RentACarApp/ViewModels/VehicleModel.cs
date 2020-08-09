@@ -38,6 +38,9 @@ namespace RentACarApp.ViewModels
 
         public virtual Status VehicleStatus { get; set; }
         public int LocationId { get; set; }
+        public int VehicleId { get; set; }
+        public string CustomerId { get; set; }
+        public int RefrenceNo { get; set; }
 
     }
 }

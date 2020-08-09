@@ -20,8 +20,9 @@ namespace RentACarApp.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("RentACarAppDbContextConnection")));
 
-                services.AddDefaultIdentity<RentACarAppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<RentACarAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<RentACarAppDbContext>();
+                 
             });
         }
     }

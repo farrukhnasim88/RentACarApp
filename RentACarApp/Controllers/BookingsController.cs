@@ -95,14 +95,16 @@ namespace RentACarApp.Controllers
         // After login or Register 
         public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
-            HttpContext.Session.SetString("VehicelId", VehicleId);
-            HttpContext.Session.SetString("Price", price);
+           // HttpContext.Session.SetString("VehicelId", VehicleId);
+            //HttpContext.Session.SetString("Price", price);
             int vehicleId = int.Parse(VehicleId);
             decimal bookingPrice = decimal.Parse(price);
-            ViewBag.Price = bookingPrice;
-
+            //ViewBag.Price = bookingPrice;
+            var user =await _userManager.FindByEmailAsync(User.Identity.Name);
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
             VehicleModel vm = new VehicleModel();
+            Random random = new Random();
+            var ran = random.Next();
             vm.HireDate= DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             vm.ReturnDate= DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             vm.Make = selectedVehicel.Make;
@@ -112,16 +114,23 @@ namespace RentACarApp.Controllers
             vm.Color = selectedVehicel.Color;
             vm.Fee = bookingPrice;
             vm.ImageUrl = selectedVehicel.ImageUrl;
+            vm.VehicleId = vehicleId;
+            vm.LocationId= int.Parse(HttpContext.Session.GetString("Location"));
+            vm.CustomerId= user.Id;
+            vm.RefrenceNo = ran;
             
-
+            //var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
-
-            //return View(selectedVehicel);
             return View (vm);
         }
-             
+             public async Task<IActionResult> Checkout()
+        {
+
+           
+            return null;
+        }
         public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
