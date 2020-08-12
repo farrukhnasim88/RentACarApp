@@ -1,17 +1,30 @@
-﻿@model RentACarApp.ViewModels.VehicleModel
+﻿
+@model RentACarApp.ViewModels.VehicleModel
 
 @{
     ViewData["Title"] = "MyConfirm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var selectedVehicle = (RentACarApp.ViewModels.VehicleModel)TempData["currentSelection"];
+
 }
 
 <h1>MyConfirm</h1>
+@{ 
+    TempData.Keep("selectedVehicle");
+}
 
 <div>
     <h4>You have selected following vehicle</h4>
     <hr />
-    <a class="btn btn-info btn-lg float-right"> Checkout</a>
+    <a class="btn btn-info btn-lg float-right" asp-action="Checkout"> Checkout</a>
     <dl class="row">
+        <dt class="col-sm-2">
+           Booking Refrence 
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RefrenceNo)
+        </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.HireDate)
         </dt>
@@ -74,7 +87,9 @@
     </dl>
 </div>
 <div>
+    
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Final Checkout", "Checkout", "Bookings")|
+    <a asp-action="Index">Back to List</a>|
     <a asp-route-locationid=""></a>
 </div>

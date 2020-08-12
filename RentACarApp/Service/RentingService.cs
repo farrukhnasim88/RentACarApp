@@ -70,5 +70,11 @@ namespace RentACarApp.Service
 
         }
 
+        public void AddBooking(Booking booking)
+        {
+            _context.Add(booking);
+            _context.SaveChanges();
+
+        }
     }
 }

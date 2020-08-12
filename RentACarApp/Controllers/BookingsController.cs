@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
 using RentACarApp.Models;
@@ -118,18 +120,54 @@ namespace RentACarApp.Controllers
             vm.LocationId= int.Parse(HttpContext.Session.GetString("Location"));
             vm.CustomerId= user.Id;
             vm.RefrenceNo = ran;
-            
+           
+
             //var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
             //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
             //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
+            //*************************************************************
+            //temp-data method
+            //*************************************************************
+            TempData["currentSelection"] = vm;
+          //TempData.Keep();
+
+            //*************************************************************
+            //Json method
+            //*************************************************************
+            //HttpContext.Session.Set("myvm", Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(vm)));
+
+            ////try retrive the object back from cache
+            //byte[] fromSession;
+            //bool result1 = HttpContext.Session.TryGetValue("myvm", out fromSession);
+            //if (result1) {
+            //    string objectStringified = Encoding.ASCII.GetString(fromSession);
+            //    VehicleModel fromcache = JsonConvert.DeserializeObject<VehicleModel>(objectStringified);
+            //}
             return View (vm);
         }
              public async Task<IActionResult> Checkout()
         {
+            ViewBag.g = TempData["selectedVehicle"];
+          //  ViewBag.received = (VehicleModel)TempData["currentSelection"]  ;
+           // ViewBag.received1 = TempData["currentSelection"] as VehicleModel ;
+
+            //TempData.Keep();
+         //   var vmReceived= (VehicleModel) TempData["selectedVehicle"];
+       //     VehicleModel g = TempData["currentSelection"] as VehicleModel;
+
+            Booking addBooking = new Booking();
+            //addBooking.RefrenceNo = vmReceived.RefrenceNo;
+            //addBooking.HireDate = vmReceived.HireDate;
+            //addBooking.ReturnDate = vmReceived.ReturnDate;
+            //addBooking.LocationId = vmReceived.LocationId;
+            //addBooking.VehicleId = vmReceived.VehicleId;
+            //addBooking.CustomerId = vmReceived.CustomerId;
+            _service.AddBooking(addBooking);
+            return View();
 
            
-            return null;
+            
         }
         public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
         {
@@ -154,6 +192,7 @@ namespace RentACarApp.Controllers
         }
 
         // GET: Bookings/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
