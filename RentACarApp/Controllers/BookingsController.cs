@@ -103,6 +103,8 @@ namespace RentACarApp.Controllers
             decimal bookingPrice = decimal.Parse(price);
             //ViewBag.Price = bookingPrice;
             var user =await _userManager.FindByEmailAsync(User.Identity.Name);
+            
+
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
             VehicleModel vm = new VehicleModel();
             Random random = new Random();
@@ -120,7 +122,7 @@ namespace RentACarApp.Controllers
             vm.LocationId= int.Parse(HttpContext.Session.GetString("Location"));
             vm.CustomerId= user.Id;
             vm.RefrenceNo = ran;
-           
+
 
             //var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
@@ -129,42 +131,45 @@ namespace RentACarApp.Controllers
             //*************************************************************
             //temp-data method
             //*************************************************************
-            TempData["currentSelection"] = vm;
-          //TempData.Keep();
+            // TempData["currentSelection"] = vm;
+            //TempData.Keep();
 
             //*************************************************************
             //Json method
             //*************************************************************
-            //HttpContext.Session.Set("myvm", Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(vm)));
+            HttpContext.Session.Set("myvm", Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(vm)));
 
-            ////try retrive the object back from cache
-            //byte[] fromSession;
-            //bool result1 = HttpContext.Session.TryGetValue("myvm", out fromSession);
-            //if (result1) {
-            //    string objectStringified = Encoding.ASCII.GetString(fromSession);
-            //    VehicleModel fromcache = JsonConvert.DeserializeObject<VehicleModel>(objectStringified);
-            //}
+            //try retrive the object back from cache
+            byte[] fromSession;
+            bool result1 = HttpContext.Session.TryGetValue("myvm", out fromSession);
+            if (result1)
+            {
+                string objectStringified = Encoding.ASCII.GetString(fromSession);
+                VehicleModel fromcache = JsonConvert.DeserializeObject<VehicleModel>(objectStringified);
+            }
             return View (vm);
         }
-             public async Task<IActionResult> Checkout()
+             public async Task<IActionResult> Checkout(int locationId, int vehicleId, string customerId, int refrenceNo)
         {
-            ViewBag.g = TempData["selectedVehicle"];
-          //  ViewBag.received = (VehicleModel)TempData["currentSelection"]  ;
-           // ViewBag.received1 = TempData["currentSelection"] as VehicleModel ;
+            //  ViewBag.g = TempData["selectedVehicle"];
+            //  ViewBag.received = (VehicleModel)TempData["currentSelection"]  ;
+            // ViewBag.received1 = TempData["currentSelection"] as VehicleModel ;
 
             //TempData.Keep();
-         //   var vmReceived= (VehicleModel) TempData["selectedVehicle"];
-       //     VehicleModel g = TempData["currentSelection"] as VehicleModel;
-
+            //   var vmReceived= (VehicleModel) TempData["selectedVehicle"];
+            //     VehicleModel g = TempData["currentSelection"] as VehicleModel;
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            ViewBag.email = user.Email;
             Booking addBooking = new Booking();
-            //addBooking.RefrenceNo = vmReceived.RefrenceNo;
-            //addBooking.HireDate = vmReceived.HireDate;
-            //addBooking.ReturnDate = vmReceived.ReturnDate;
-            //addBooking.LocationId = vmReceived.LocationId;
-            //addBooking.VehicleId = vmReceived.VehicleId;
-            //addBooking.CustomerId = vmReceived.CustomerId;
+            addBooking.RefrenceNo = refrenceNo;
+            addBooking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
+            addBooking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
+            addBooking.LocationId = locationId;
+            addBooking.VehicleId = vehicleId;
+            addBooking.CustomerId = customerId;
             _service.AddBooking(addBooking);
-            return View();
+           
+            return View(addBooking);
 
            
             

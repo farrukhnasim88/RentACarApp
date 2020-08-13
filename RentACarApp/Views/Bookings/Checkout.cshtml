@@ -1,0 +1,30 @@
+﻿@model RentACarApp.Models.Booking
+
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Done!</h1>
+
+<div class="mt-4">
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="text-dark">Booking Completed!</h1>
+        <p class="text-dark pt-5">Your booking has been successful</p>
+        <p class="text-dark">Thank you for your booking with YRentACar</p>
+        <p class="text-dark">Your reference number is @Model.RefrenceNo</p>
+        <p class="text-dark">Confirmation email has been sent to @ViewBag.email</p>
+        <p class="text-dark">Looking forward to see you on @Model.HireDate.ToString("dd-MM-yyyy")</p>
+        <div class="text-light pt-3">
+            <a class="btn btn-dark text-light" asp-controller="Home" asp-action="Index">Back to Home Page</a>
+        </div>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+</div>
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
