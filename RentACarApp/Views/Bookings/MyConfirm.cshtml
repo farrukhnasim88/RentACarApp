@@ -4,14 +4,10 @@
 @{
     ViewData["Title"] = "MyConfirm";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var selectedVehicle = (RentACarApp.ViewModels.VehicleModel)TempData["currentSelection"];
-
 }
 
 <h1>MyConfirm</h1>
-@{ 
-    TempData.Keep("selectedVehicle");
-}
+
 
 <div>
     <h4>You have selected following vehicle</h4>

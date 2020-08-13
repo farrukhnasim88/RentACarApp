@@ -15,19 +15,19 @@
         <tr>
              
             <th>
-                @Html.DisplayNameFor(model => model.HireDate)
+               Hire Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReturnDate)
+               Return Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LocationId)
+              Location Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RefrenceNo)
+               Booking Refrence
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Vehicle.Make)
+                Vehicle Make
             </th>
              
             <th></th>
@@ -44,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LocationId)
+                @Html.DisplayFor(modelItem => item.Location.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RefrenceNo)
@@ -54,9 +54,9 @@
             </td>
             
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

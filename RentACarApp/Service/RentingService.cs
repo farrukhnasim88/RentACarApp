@@ -25,7 +25,7 @@ namespace RentACarApp.Service
       
         public List<Booking> GetBookingsByCustomerId(string id)
         {
-            var bookings = _context.Bookings.Where (b => b.CustomerId.Equals( id)).Include(v => v.Vehicle);
+            var bookings = _context.Bookings.Where (b => b.CustomerId.Equals( id)).Include(v => v.Vehicle).Include(l => l.Location);
             return bookings.ToList();
         }
         public List<Booking> GetAllBookings()
