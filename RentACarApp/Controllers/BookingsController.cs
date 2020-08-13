@@ -97,14 +97,11 @@ namespace RentACarApp.Controllers
         // After login or Register 
         public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
-           // HttpContext.Session.SetString("VehicelId", VehicleId);
-            //HttpContext.Session.SetString("Price", price);
+           
             int vehicleId = int.Parse(VehicleId);
             decimal bookingPrice = decimal.Parse(price);
-            //ViewBag.Price = bookingPrice;
+             
             var user =await _userManager.FindByEmailAsync(User.Identity.Name);
-            
-
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
             VehicleModel vm = new VehicleModel();
             Random random = new Random();
@@ -122,42 +119,12 @@ namespace RentACarApp.Controllers
             vm.LocationId= int.Parse(HttpContext.Session.GetString("Location"));
             vm.CustomerId= user.Id;
             vm.RefrenceNo = ran;
-
-
-            //var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            //booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-            //booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
-            //booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
-            //*************************************************************
-            //temp-data method
-            //*************************************************************
-            // TempData["currentSelection"] = vm;
-            //TempData.Keep();
-
-            //*************************************************************
-            //Json method
-            //*************************************************************
-            HttpContext.Session.Set("myvm", Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(vm)));
-
-            //try retrive the object back from cache
-            byte[] fromSession;
-            bool result1 = HttpContext.Session.TryGetValue("myvm", out fromSession);
-            if (result1)
-            {
-                string objectStringified = Encoding.ASCII.GetString(fromSession);
-                VehicleModel fromcache = JsonConvert.DeserializeObject<VehicleModel>(objectStringified);
-            }
+                        
             return View (vm);
         }
              public async Task<IActionResult> Checkout(int locationId, int vehicleId, string customerId, int refrenceNo)
         {
-            //  ViewBag.g = TempData["selectedVehicle"];
-            //  ViewBag.received = (VehicleModel)TempData["currentSelection"]  ;
-            // ViewBag.received1 = TempData["currentSelection"] as VehicleModel ;
-
-            //TempData.Keep();
-            //   var vmReceived= (VehicleModel) TempData["selectedVehicle"];
-            //     VehicleModel g = TempData["currentSelection"] as VehicleModel;
+             
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             ViewBag.email = user.Email;
             Booking addBooking = new Booking();
@@ -170,174 +137,15 @@ namespace RentACarApp.Controllers
             _service.AddBooking(addBooking);
            
             return View(addBooking);
-
-           
             
         }
-        public async Task<IActionResult> Confirm(int vehicleId, string hdate , string rdate, int location)
+       
+        public async Task<IActionResult> MyBookings(string customerId)
         {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            Booking booking = new Booking();
-            booking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-            booking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
-            booking.LocationId = int.Parse(HttpContext.Session.GetString("Location"));
-            booking.VehicleId = 0;
-            booking.CustomerId = user.Id;
-            _context.Bookings.Add(booking);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
-            
+            List<Booking> bookingByCustomer = _service.GetBookingsByCustomerId(customerId);
+            return View(bookingByCustomer);
         }
 
-        // GET: Bookings
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext =  _service.GetAllBooking();
-            return View( applicationDbContext);
-        }
-
-        // GET: Bookings/Details/5
-        
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.Bookings
-                .Include(b => b.Location)
-                .Include(b => b.Vehicle)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // GET: Bookings/Create
-        public IActionResult Create()
-        {
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id");
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
-
-            return View();
-        }
-
-        // POST: Bookings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,HireDate,ReturnDate,LocationId,VehicleId,CustomerId")] Booking booking)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Id", booking.LocationId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", booking.VehicleId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", booking.VehicleId);
-
-            return View(booking);
-        }
-
-        // GET: Bookings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.Bookings.FindAsync(id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Id", booking.LocationId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", booking.VehicleId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", booking.VehicleId);
-            return View(booking);
-        }
-
-        // POST: Bookings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,HireDate,ReturnDate,LocationId,VehicleId,CustomerId")] Booking booking)
-        {
-            if (id != booking.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(booking);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookingExists(booking.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Id", booking.LocationId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", booking.VehicleId);
-            return View(booking);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", booking.VehicleId);
-        }
-
-        // GET: Bookings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.Bookings
-                .Include(b => b.Location)
-                .Include(b => b.Vehicle)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // POST: Bookings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var booking = await _context.Bookings.FindAsync(id);
-            _context.Bookings.Remove(booking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BookingExists(int id)
-        {
-            return _context.Bookings.Any(e => e.Id == id);
-        }
+       
     }
 }

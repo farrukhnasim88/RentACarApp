@@ -18,6 +18,7 @@
         <p class="text-dark">Looking forward to see you on @Model.HireDate.ToString("dd-MM-yyyy")</p>
         <div class="text-light pt-3">
             <a class="btn btn-dark text-light" asp-controller="Home" asp-action="Index">Back to Home Page</a>
+            <a class="btn btn-dark text-light" asp-action="MyBookings" asp-route-customerId="@Model.CustomerId">My Bookings</a>
         </div>
     </div>
     <div class="col-lg-4"></div>
@@ -27,4 +28,5 @@
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
+    
 </div>
