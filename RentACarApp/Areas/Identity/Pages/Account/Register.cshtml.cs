@@ -52,27 +52,35 @@ namespace RentACarApp.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-            [Required]
+            [Required(ErrorMessage = "Please Enter First Name")]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please Enter Last Name")]
+            [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage ="Please Enter Mobile Number")]
+            [Phone]
+            [Display(Name = "Mobile")]
+            [RegularExpression(@"/ ^\(? (?:\+? 61 | 0)(?:2\)?[ -]? (?:3[ -]?[38]|[46-9] [ -]?[0 - 9]|5[ -]?[0 - 35 - 9])|3\)?(?:4[ -]?[0 - 57 - 9]|[57-9] [ -]?[0 - 9]|6[ -]?[1 - 67])|7\)?[ -]? (?:[2-4] [ -]?[0 - 9]|5[ -]?[2 - 7]|7[ -]?6)|8\)?[ -]? (?:5[ -]?[1 - 4]|6[ -]?[0 - 8]|[7-9] [ -]?[0 - 9]))(?:[ -]?[0 - 9]){6}$", ErrorMessage ="i.e 0400898987")]
+
             public string Mobile { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please Enter Licence Number")]
+            [Display(Name ="Licence Number")]
             public int LicenceNo { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please Enter Address")]
             public string Address { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please Enter valid Email i.e citizen@dotnet.com")]
             [EmailAddress]
             [Display(Name = "Email")]
+            [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid Email Address")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Please valid Password")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
