@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RentACarApp.Data;
 using RentACarApp.Models;
 using System;
@@ -15,6 +16,11 @@ namespace RentACarApp.Service
         public RentingService(RentACarAppDbContext context)
         {
             _context = context;
+        }
+
+        public SelectList GetLocations()
+        {
+            return new SelectList(_context.Locations, "Id", "Name");
         }
 
         public List<Booking> GetAllBooking()

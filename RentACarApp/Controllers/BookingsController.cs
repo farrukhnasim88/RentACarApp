@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
 using RentACarApp.Models;
@@ -19,39 +15,24 @@ namespace RentACarApp.Controllers
 {
     public class BookingsController : Controller
     {
-        private readonly RentACarAppDbContext _context;
         private readonly RentingService _service;
         private readonly UserManager<RentACarAppUser> _userManager;
-
-        // dependies inj
+        // dependency inj
         public BookingsController(RentACarAppDbContext context, RentingService service, UserManager<RentACarAppUser> userManager )
         {
-            _context = context;
             _service = service;
             _userManager = userManager;
         }
-
-        public async Task<IActionResult> Index1()
-        {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            string a = user.Id;
-            var r = _service.GetBookingsByCustomerId(a);
-            return View("Index", r);
-        }
-
-        // Get Booking Dates and Locations
-        [HttpGet]
         public async Task<IActionResult> GetBooking()
         {
             // Get all locations from db
-            ViewData["LocationId"] =  new SelectList(_context.Locations, "Id", "Name");
+            ViewData["LocationId"] =  _service.GetLocations();
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
        
-        public async Task<IActionResult> GetBookingPost( Booking booking)
+        public async Task<IActionResult> GetBookingPost([Bind("HireDate, ReturnDate,LocationId")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -89,8 +70,8 @@ namespace RentACarApp.Controllers
                 return View(vehiclesViewModels);
                 
             }
-
-            return View(booking);
+            
+            return RedirectToAction(nameof(GetBooking));
 
         }
 
@@ -122,7 +103,9 @@ namespace RentACarApp.Controllers
                         
             return View (vm);
         }
-             public async Task<IActionResult> Checkout(int locationId, int vehicleId, string customerId, int refrenceNo)
+
+        // checkout after selecting car
+        public async Task<IActionResult> Checkout(int locationId, int vehicleId, string customerId, int refrenceNo)
         {
              
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -139,7 +122,7 @@ namespace RentACarApp.Controllers
             return View(addBooking);
             
         }
-       
+       // list of bookings by customer id
         public async Task<IActionResult> MyBookings(string customerId)
         {
             List<Booking> bookingByCustomer = _service.GetBookingsByCustomerId(customerId);

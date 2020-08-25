@@ -5,11 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>MyBookings</h1>
+<h1>My Bookings</h1>
 
-<p>
-    <a asp-action="GetBooking">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -30,7 +28,7 @@
                 Vehicle Make
             </th>
              
-            <th></th>
+             
         </tr>
     </thead>
     <tbody>
@@ -53,11 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Vehicle.Make)
             </td>
             
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
+             
         </tr>
 }
     </tbody>
