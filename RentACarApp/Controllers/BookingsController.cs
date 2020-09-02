@@ -17,11 +17,15 @@ namespace RentACarApp.Controllers
     {
         private readonly RentingService _service;
         private readonly UserManager<RentACarAppUser> _userManager;
+        private readonly SignInManager<RentACarAppUser> _signInManager;
+        
         // dependency inj
-        public BookingsController(RentACarAppDbContext context, RentingService service, UserManager<RentACarAppUser> userManager )
+        public BookingsController(RentACarAppDbContext context, RentingService service, UserManager<RentACarAppUser> userManager, SignInManager<RentACarAppUser> signInManager  )
         {
             _service = service;
             _userManager = userManager;
+            _signInManager = signInManager;
+         
         }
         public async Task<IActionResult> GetBooking()
         {
@@ -64,17 +68,11 @@ namespace RentACarApp.Controllers
                     vvm.Days = days;
                     vvm.Price = vvm.RatePerDay * vvm.Days;
                     vehiclesViewModels.Add(vvm);
-
                 }
-
                 return View(vehiclesViewModels);
-                
             }
-            
             return RedirectToAction(nameof(GetBooking));
-
         }
-
         // After login or Register 
         public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
@@ -120,7 +118,6 @@ namespace RentACarApp.Controllers
             _service.AddBooking(addBooking);
            
             return View(addBooking);
-            
         }
        // list of bookings by customer id
         public async Task<IActionResult> MyBookings(string customerId)

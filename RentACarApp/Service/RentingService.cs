@@ -43,13 +43,11 @@ namespace RentACarApp.Service
         {
             var vehicles = _context.Vehicles.ToList();
             return vehicles;
-
         }
 
         public Vehicle  GetVehicleById(int id)
         {
             return _context.Vehicles.FirstOrDefault(v => v.Id == id);
-
         }
         // this method will find existing bookings Vehicle Ids
         public List<int> FindOverlapBookingsId(DateTime HireDate, DateTime ReturnDate, IEnumerable<Booking> existingBookings)
@@ -73,14 +71,11 @@ namespace RentACarApp.Service
            List<int> ids= FindOverlapBookingsId(booking.HireDate, booking.ReturnDate, bookings);
             List<Vehicle> allVehicls = _context.Vehicles.Where(p => p.LocationId==locationId && !ids.Any(q => q == p.Id)).ToList();
             return allVehicls;
-
         }
-
         public void AddBooking(Booking booking)
         {
             _context.Add(booking);
             _context.SaveChanges();
-
         }
     }
 }

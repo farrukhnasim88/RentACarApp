@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<RentACarApp.ViewModels.VehiclesViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<RentACarApp.Areas.Identity.Data.RentACarAppUser> SignInManager
 
 @{
     ViewData["Title"] = "GetBookingPost";
@@ -62,10 +64,25 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @{
-                    var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id + "&" + "Price=" + @item.Price;
+                @if (SignInManager.IsSignedIn(User))
+
+                {
+
+                    <a asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-controller="Bookings" asp-action="MyConfirm">Select</a>
+
                 }
-                <a id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a>
+
+                else
+                {
+                     var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id + "&" + "Price=" + @item.Price;
+                   
+
+                    <a id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a>
+                }
+
+
+
+
             </td>
         </tr>
 
