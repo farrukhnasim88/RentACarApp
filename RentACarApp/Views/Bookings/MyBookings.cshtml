@@ -6,53 +6,53 @@
 }
 
 <h1>My Bookings</h1>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
 
+                <th>
+                    Hire Date
+                </th>
+                <th>
+                    Return Date
+                </th>
+                <th>
+                    Location Name
+                </th>
+                <th>
+                    Booking Refrence
+                </th>
+                <th>
+                    Vehicle Make
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-<table class="table">
-    <thead>
-        <tr>
-             
-            <th>
-               Hire Date
-            </th>
-            <th>
-               Return Date
-            </th>
-            <th>
-              Location Name
-            </th>
-            <th>
-               Booking Refrence
-            </th>
-            <th>
-                Vehicle Make
-            </th>
-             
-             
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.HireDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RefrenceNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vehicle.Make)
-            </td>
-            
-             
-        </tr>
-}
-    </tbody>
-</table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HireDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReturnDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RefrenceNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vehicle.Make)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<a class="btn btn-dark text-light" asp-controller="Bookings" asp-action="GetBooking">Add Booking</a>

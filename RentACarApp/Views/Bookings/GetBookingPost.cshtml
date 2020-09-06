@@ -7,85 +7,176 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Available Vehicle List</h1>
+    <div class=" ">
+        <h2 class="text-center text-dark top-right">Discover Your Journey</h2>
+        <div class="text-center">
 
- 
-<table class="table">
-    <thead>
-        <tr>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kilometer)
-            </th>
-            <th>
-                Image
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kilometer)
-            </td>
-            <td>
-                <img src="@item.ImageUrl" class="w-50 h-50" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @if (SignInManager.IsSignedIn(User))
+            <p>The price quoted is a minimum price which includes all mandatory fees and charges but excludes any fees and charges for: optional extras selected during your booking; not returning the vehicle with a full tank of fuel; exceeding the mileage allowance shown; infringements you incur or the use of toll roads. In Australia payments made via debit/credit card are subject to a payment surcharge plus GST of 1.08% for Visa Credit, 1.33% for Mastercard Credit, 0.96% for Visa Debit, 0.60% for Mastercard Debit, 1.33% for American Express, 3.09% for Diners Club and 1.32% for JCB. You may also be liable for additional fees and charges if the vehicle is damaged.</p>
 
-                {
+        </div>
+        <h5 class="mt-4">We have @Model.Count() Vehicles availble for you to choose. </h5>
+        <div class="row">
+            @foreach (var vehicle in Model)
 
-                    <a asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-controller="Bookings" asp-action="MyConfirm">Select</a>
+            {
+                <div class="col-10 ">
+                    <div class="card my-4 ">
+                        <div class="card-header">
+                            @vehicle.Make  @vehicle.Model @vehicle.Year
+                        </div>
 
-                }
+                        <div class="card-body">
+                            <div class="row">
 
-                else
-                {
-                     var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id + "&" + "Price=" + @item.Price;
-                   
+                                <div class="col-lg-4 ">
+                                    <img src="@vehicle.ImageUrl" class="w-100 h-100" />
+                                </div>
+                                <div class="col-lg-5 ">
+                                    <div>
+                                        <h6 class="card-title">Milage Unlimited</h6>
+                                        <small class="card-text">Full unrestricted licence - Minimum Age 21                                         years</small>
+                                    </div>
+                                    <div>
+                                        <ul class="float-left" style="list-style-type:square;">
+                                            <li>@vehicle.Color</li>
+                                            <li>@vehicle.Kilometer Km</li>
+                                            <li>$@vehicle.RatePerDay Per Day</li>
+                                        </ul>
 
-                    <a id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a>
-                }
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-3">
+                                    @if (SignInManager.IsSignedIn(User))
+
+                                    {
+
+                                        <a class="btn btn-lg btn-dark" asp-route-price="@vehicle.Price" asp-route-vehicleId="@vehicle.Id" asp-controller="Bookings" asp-action="MyConfirm">Book Now</a>
+
+                                    }
+                                    else
+                                    {
+                                        var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + vehicle.Id + "&" + "Price=" + vehicle.Price;
 
 
+                                        <a class="btn btn-lg btn-dark" id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@vehicle.Price" asp-route-vehicleId="@vehicle.Id" asp-area="Identity" asp-page="/Account/Login">Book Now</a>
+                                    }
+
+                                    <h6 class="mt-2">
+                                        AUD @vehicle.Price
+                                    </h6>
+
+                                </div>
+
+                            </div>
 
 
-            </td>
-        </tr>
+                        </div>
 
+
+                        <div class="card-footer text-muted">
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var back = ["#ff0000", "blue", "gray"];
+            var rand = back[Math.floor(Math.random() * back.length)];
+            $('.card-footer').css('background', rand);
+        })
+
+    </script>
 }
-    </tbody>
-</table>
+
+
+
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Make)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Kilometer)
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Color)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+
+
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Make)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kilometer)
+                </td>
+                <td>
+                    <img src="@item.ImageUrl" class="w-50 h-50" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (SignInManager.IsSignedIn(User))
+
+                    {
+
+                        <a asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-controller="Bookings" asp-action="MyConfirm">Book Now</a>
+
+                    }
+
+                    else
+                    {
+                         var myreturnurl = "~/Bookings/MyConfirm?vehicleId=" + @item.Id + "&" + "Price=" + @item.Price;
+
+
+                        <a id="login" asp-route-returnurl="@myreturnurl" asp-route-price="@item.Price" asp-route-vehicleId="@item.Id" asp-area="Identity" asp-page="/Account/Login">Select</a>
+                    }
+                </td>
+            </tr>
+
+    }
+        </tbody>
+    </table>*@
