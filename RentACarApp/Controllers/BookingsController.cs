@@ -19,7 +19,7 @@ namespace RentACarApp.Controllers
         private readonly UserManager<RentACarAppUser> _userManager;
         private readonly SignInManager<RentACarAppUser> _signInManager;
         
-        // dependency inj
+        
         public BookingsController(RentACarAppDbContext context, RentingService service, UserManager<RentACarAppUser> userManager, SignInManager<RentACarAppUser> signInManager  )
         {
             _service = service;
@@ -27,15 +27,18 @@ namespace RentACarApp.Controllers
             _signInManager = signInManager;
          
         }
+
+        // Takes dates and location for booking
         public async Task<IActionResult> GetBooking()
         {
             // Get all locations from db
             ViewData["LocationId"] =  _service.GetLocations();
             return View();
         }
+
+        // Post the Booking
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
         public async Task<IActionResult> GetBookingPost([Bind("HireDate, ReturnDate,LocationId")] Booking booking)
         {
             if (ModelState.IsValid)
@@ -46,7 +49,12 @@ namespace RentACarApp.Controllers
                 HttpContext.Session.SetString("ReturnDate", rdate.ToString());
                 HttpContext.Session.SetString("HireDate", hdate.ToString());
                 HttpContext.Session.SetString("Location", location.ToString());
-                int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days;
+
+                int days = (booking.ReturnDate.Date - booking.HireDate.Date).Days ;
+                if (days == 0)
+                {
+                    days = days + 1;
+                }
 
                 var allBookings = _service.GetAllBookings();
                 
@@ -73,7 +81,7 @@ namespace RentACarApp.Controllers
             }
             return RedirectToAction(nameof(GetBooking));
         }
-        // After login or Register 
+        // After login or Register User
         public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
            

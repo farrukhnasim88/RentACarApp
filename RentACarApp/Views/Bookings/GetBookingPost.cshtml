@@ -8,10 +8,10 @@
 }
 
     <div class=" ">
-        <h2 class="text-center text-dark top-right">Discover Your Journey</h2>
-        <div class="text-center">
+        <h2 class="text-center text-dark top-right bg-info sticky-top ">Discover Your Journey</h2>
+        <div class="text-center" >
 
-            <p>The price quoted is a minimum price which includes all mandatory fees and charges but excludes any fees and charges for: optional extras selected during your booking; not returning the vehicle with a full tank of fuel; exceeding the mileage allowance shown; infringements you incur or the use of toll roads. In Australia payments made via debit/credit card are subject to a payment surcharge plus GST of 1.08% for Visa Credit, 1.33% for Mastercard Credit, 0.96% for Visa Debit, 0.60% for Mastercard Debit, 1.33% for American Express, 3.09% for Diners Club and 1.32% for JCB. You may also be liable for additional fees and charges if the vehicle is damaged.</p>
+            <small >The price quoted is a minimum price which includes all mandatory fees and charges but excludes any fees and charges for: optional extras selected during your booking; not returning the vehicle with a full tank of fuel; exceeding the mileage allowance shown; infringements you incur or the use of toll roads. In Australia payments made via debit/credit card are subject to a payment surcharge plus GST of 1.08% for Visa Credit, 1.33% for Mastercard Credit, 0.96% for Visa Debit, 0.60% for Mastercard Debit, 1.33% for American Express, 3.09% for Diners Club and 1.32% for JCB. You may also be liable for additional fees and charges if the vehicle is damaged.</small>
 
         </div>
         <h5 class="mt-4">We have @Model.Count() Vehicles availble for you to choose. </h5>
@@ -90,7 +90,7 @@
 {
     <script>
         $(document).ready(function () {
-            var back = ["#ff0000", "blue", "gray"];
+            var back = ["orange","green","black","yellow","red","pink","blue"];
             var rand = back[Math.floor(Math.random() * back.length)];
             $('.card-footer').css('background', rand);
         })

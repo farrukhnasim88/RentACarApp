@@ -52,34 +52,34 @@ namespace RentACarApp.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-            [Required(ErrorMessage = "Please Enter First Name")]
+            [Required]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
-            [Required(ErrorMessage = "Please Enter Last Name")]
+            [Required]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
-            [Required(ErrorMessage ="Please Enter Mobile Number")]
+            [Required]
             [Phone]
             [Display(Name = "Mobile")]
             public string Mobile { get; set; }
 
-            [Required(ErrorMessage = "Please Enter Licence Number")]
+            [Required]
             [Display(Name ="Licence Number")]
             public int LicenceNo { get; set; }
 
-            [Required(ErrorMessage = "Please Enter Address")]
+            [Required]
             public string Address { get; set; }
 
-            [Required(ErrorMessage = "Please Enter valid Email i.e citizen@dotnet.com")]
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid Email Address")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Please valid Password")]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters and must have at least one Caplital Letter,Special Character and numerical.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }

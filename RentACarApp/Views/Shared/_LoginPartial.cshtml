@@ -3,17 +3,37 @@
 
 @inject SignInManager<RentACarAppUser> SignInManager
 @inject UserManager<RentACarAppUser> UserManager
+@{ 
+   
+    var time24 = DateTime.Now.ToString("HH");
+    var ti = int.Parse(time24);
 
-<ul class="navbar-nav ml-auto">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
 }
-</ul>
+
+    <ul class="navbar-nav ml-auto">
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                      
+                    @{ 
+                        if (ti >= 12 && ti<18)
+                        { <p>Hello Good Afternoon!<b> @UserManager.GetUserAsync(User).Result.LastName </b></p>}
+                        else if (ti >= 18 && ti < 24)
+                        {<p>Hello Good Evening!<b>  @UserManager.GetUserAsync(User).Result.LastName</b> </p>}
+                        else
+                        {
+                <p>Hello Good Morning! <b>@UserManager.GetUserAsync(User).Result.LastName</b> </p>
+                            }
+                        }
+                </a>
+            </li>
+            <li class="nav-item ">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+    </ul>

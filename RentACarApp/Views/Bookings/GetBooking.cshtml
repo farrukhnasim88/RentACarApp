@@ -5,27 +5,27 @@
     ViewData["Title"] = "GetBooking";
 }
 
-<h1>Make A Booking</h1>
 
-<h4>Please select Dates and location for Booking</h4>
+
+<h4 class="textvw2">Please select Dates and location for your Booking</h4>
 <hr />
-<div class="row">
+<div class="row bglogin">
 
-    <div class="col-md-5">
+    <div class="col-md-5 text-white">
         <form asp-action="GetBookingPost">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="HireDate" class="control-label"></label>
+                <label asp-for="HireDate" class="control-label"></label><label>*</label>
                 <input asp-for="HireDate" class="form-control" type="date" />
                 <span asp-validation-for="HireDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label"></label>
+                <label asp-for="ReturnDate" class="control-label"></label><label>*</label>
                 <input asp-for="ReturnDate" class=" form-control" />
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
+                <label asp-for="Location" class="control-label"></label><label>*</label>
                 <select asp-for="LocationId" class="form-control" asp-items="ViewBag.LocationId">
                     <option value="">-- Select Location --</option>
                 </select>
@@ -33,14 +33,14 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Find Cars" class="btn btn-dark" />
+                <input type="submit" value="Find Cars" class="btn btn-dark btn-lg btn-block" />
             </div>
         </form>
     </div>
-    <div class="col-md-5">
-        <img src="~/images/VW.webp" class=" h-100 w-100 border-info" />
+    <div class="col-md-7">
+        <img src="~/images/getbooking.jpeg" class=" h-100 w-100 border-info img-fluid" />
     </div>
-</div>
+</div> 
 @section Scripts
 {
     <script>
