@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RentACarApp.Areas.Identity.Data;
-using RentACarApp.Data;
 using RentACarApp.Service;
+using System.Reflection;
 
 namespace RentACarApp
 {
@@ -31,11 +24,9 @@ namespace RentACarApp
             
             // registering service layer , depend inj
             services.AddScoped<RentingService, RentingService>();
-            //registering DbContext 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(
-            //            Configuration.GetConnectionString("DefaultConnection")));
-             
+            services.AddAutoMapper(typeof(Startup));
+            //services.AddAutoMapper(Assembly.GetExecutingAssembly());
+           
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc().AddSessionStateTempDataProvider();

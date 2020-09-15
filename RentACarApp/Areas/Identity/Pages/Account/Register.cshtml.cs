@@ -150,6 +150,7 @@ namespace RentACarApp.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            ViewData["url"] = returnUrl;
             return Page();
         }
     }

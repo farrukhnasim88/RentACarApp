@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
+using AutoMapper;
+using System.Reflection;
 
 [assembly: HostingStartup(typeof(RentACarApp.Areas.Identity.IdentityHostingStartup))]
 namespace RentACarApp.Areas.Identity
@@ -22,7 +24,8 @@ namespace RentACarApp.Areas.Identity
 
                 services.AddDefaultIdentity<RentACarAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<RentACarAppDbContext>();
-                 
+               
+
             });
         }
     }

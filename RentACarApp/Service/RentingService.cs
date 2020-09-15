@@ -77,5 +77,11 @@ namespace RentACarApp.Service
             _context.Add(booking);
             _context.SaveChanges();
         }
+
+        public int NumberOfBookings()
+        {
+            var numbers = _context.Bookings.Count();
+            return numbers;
+        }
     }
 }
