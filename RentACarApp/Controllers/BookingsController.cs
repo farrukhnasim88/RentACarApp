@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -60,52 +61,51 @@ namespace RentACarApp.Controllers
                 
                 List<Vehicle> availableVehicles =  _service.FindAvailableVehicles(booking,allBookings, location);
 
-                List<VehiclesViewModel> vehiclesViewModels = new List<VehiclesViewModel>();
+                var Vehicles = availableVehicles
+                            .Select(result => new VehiclesViewModel
+                            {
+                                Id = result.Id,
+                                Make = result.Make,
+                                Model = result.Model,
+                                Year = result.Year,
+                                ImageUrl = result.ImageUrl,
+                                Color = result.Color,
+                                Kilometer = result.Kilometer,
+                                RatePerDay = result.RatePerDay,
+                                Price = result.RatePerDay * days,
+                              
+                            });
 
-                foreach (var vehicle in availableVehicles)
-                {
-                    VehiclesViewModel vvm = new VehiclesViewModel();
-                    vvm.Id = vehicle.Id;
-                    vvm.Make = vehicle.Make;
-                    vvm.Model = vehicle.Model;
-                    vvm.Year = vehicle.Year;
-                    vvm.ImageUrl = vehicle.ImageUrl;
-                    vvm.Color = vehicle.Color;
-                    vvm.Kilometer = vehicle.Kilometer;
-                    vvm.RatePerDay = vehicle.RatePerDay;
-                    vvm.Days = days;
-                    vvm.Price = vvm.RatePerDay * vvm.Days;
-                    vehiclesViewModels.Add(vvm);
-                }
-                return View(vehiclesViewModels);
+                return View(Vehicles);
+              
             }
             return RedirectToAction(nameof(GetBooking));
         }
         // After login or Register User
         public async Task<IActionResult> MyConfirm(string VehicleId, string price)
         {
-           
             int vehicleId = int.Parse(VehicleId);
             decimal bookingPrice = decimal.Parse(price);
-             
             var user =await _userManager.FindByEmailAsync(User.Identity.Name);
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
-            VehicleModel vm = new VehicleModel();
             Random random = new Random();
             var ran = random.Next();
-            vm.HireDate= DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-            vm.ReturnDate= DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
-            vm.Make = selectedVehicel.Make;
-            vm.Model = selectedVehicel.Model;
-            vm.Year = selectedVehicel.Year;
-            vm.Kilometer = selectedVehicel.Kilometer;
-            vm.Color = selectedVehicel.Color;
-            vm.Fee = bookingPrice;
-            vm.ImageUrl = selectedVehicel.ImageUrl;
-            vm.VehicleId = vehicleId;
-            vm.LocationId= int.Parse(HttpContext.Session.GetString("Location"));
-            vm.CustomerId= user.Id;
-            vm.RefrenceNo = ran;
+            var vm = new VehicleModel
+            {
+                HireDate= DateTime.Parse(HttpContext.Session.GetString("HireDate")),
+                ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate")),
+                Make = selectedVehicel.Make,
+                Model = selectedVehicel.Model,
+                Year = selectedVehicel.Year,
+                Kilometer = selectedVehicel.Kilometer,
+                Color = selectedVehicel.Color,
+                Fee = bookingPrice,
+                ImageUrl = selectedVehicel.ImageUrl,
+                VehicleId = vehicleId,
+                LocationId = int.Parse(HttpContext.Session.GetString("Location")),
+                CustomerId = user.Id,
+                RefrenceNo = ran
+            };
                         
             return View (vm);
         }
@@ -113,18 +113,18 @@ namespace RentACarApp.Controllers
         // checkout after selecting car
         public async Task<IActionResult> Checkout(int locationId, int vehicleId, string customerId, int refrenceNo)
         {
-             
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             ViewBag.email = user.Email;
-            Booking addBooking = new Booking();
-            addBooking.RefrenceNo = refrenceNo;
-            addBooking.HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate"));
-            addBooking.ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate"));
-            addBooking.LocationId = locationId;
-            addBooking.VehicleId = vehicleId;
-            addBooking.CustomerId = customerId;
+            var addBooking = new Booking
+            {
+                RefrenceNo= refrenceNo,
+                HireDate = DateTime.Parse(HttpContext.Session.GetString("HireDate")),
+                ReturnDate = DateTime.Parse(HttpContext.Session.GetString("ReturnDate")),
+                LocationId = locationId,
+                VehicleId = vehicleId,
+                CustomerId = customerId,
+            };
             _service.AddBooking(addBooking);
-           
             return View(addBooking);
         }
        // list of bookings by customer id
