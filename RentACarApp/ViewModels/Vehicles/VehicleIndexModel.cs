@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RentACarApp.ViewModels.Vehicle
+namespace RentACarApp.ViewModels.Vehicles
 {
     public class VehicleIndexModel
     {

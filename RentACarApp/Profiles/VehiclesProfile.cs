@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RentACarApp.Models;
 using RentACarApp.ViewModels;
+using RentACarApp.ViewModels.Booking;
 
 namespace RentACarApp.Profiles
   
@@ -14,6 +15,7 @@ namespace RentACarApp.Profiles
             // mapping from Model to ViewModel
             CreateMap<Vehicle, VehiclesViewModel>();
             CreateMap<Vehicle, VehicleModel>();
+            CreateMap<Booking, BookingIndexModel>();
 
         }
        
