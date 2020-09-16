@@ -10,7 +10,9 @@ namespace RentACarApp.Profiles
     {
         public VehiclesProfile()
         {
-            
+            // Source -> Target
+            // mapping from Model to ViewModel
+            CreateMap<Vehicle, VehiclesViewModel>();
         }
        
 

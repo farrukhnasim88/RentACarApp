@@ -67,7 +67,7 @@ namespace RentACarApp.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name ="Licence Number")]
-            public int LicenceNo { get; set; }
+            public string LicenceNo { get; set; }
 
             [Required]
             public string Address { get; set; }

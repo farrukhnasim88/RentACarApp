@@ -17,7 +17,7 @@ namespace RentACarApp.Models
         public string Address { get; set; }
         public string Phone { get; set; }
         [Display(Name="Driving Licence")]
-        public int DrivingLicence { get; set; }
+        public string DrivingLicence { get; set; }
 
         public virtual List<Booking> Bookings { get; set; }
 

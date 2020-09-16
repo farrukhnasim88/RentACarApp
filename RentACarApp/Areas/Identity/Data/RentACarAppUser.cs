@@ -16,7 +16,7 @@ namespace RentACarApp.Areas.Identity.Data
 
          
         public string Mobile { get; set; }
-        public int LicenceNo { get; set; }
+        public string LicenceNo { get; set; }
         public string Address { get; set; }
 
 
