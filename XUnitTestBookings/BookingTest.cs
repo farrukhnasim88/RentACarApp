@@ -9,7 +9,7 @@ namespace XUnitTestBookings
         [Fact]
         public void Test1()
         {
-
+            // coming soon
         }
     }
 }
