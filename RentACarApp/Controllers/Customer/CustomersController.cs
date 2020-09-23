@@ -8,6 +8,7 @@ using RentACarApp.Models;
 
 namespace RentACarApp.Controllers
 {
+    [Authorize("User=Farrukh Nasim")]
     public class CustomersController : Controller
     {
         
@@ -18,6 +19,7 @@ namespace RentACarApp.Controllers
             _context = context;
         }
 
+       
         // GET: Customers
         public async Task<IActionResult> Index()
         {
@@ -65,7 +67,7 @@ namespace RentACarApp.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {

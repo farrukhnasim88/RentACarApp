@@ -5,11 +5,10 @@ using RentACarApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RentACarApp.Service
 {
-    public class RentingService
+    public class RentingService : IBookingsRepo
     { 
         private readonly RentACarAppDbContext _context;
 
@@ -25,8 +24,8 @@ namespace RentACarApp.Service
 
         public List<Booking> GetAllBooking()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle).ToList();
-            return applicationDbContext;
+            var allBookings = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle).ToList();
+            return allBookings;
         }
       
         public List<Booking> GetBookingsByCustomerId(string id)

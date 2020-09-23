@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using RentACarApp.Areas.Identity.Data;
 using RentACarApp.Data;
 using RentACarApp.Models;
@@ -88,7 +87,7 @@ namespace RentACarApp.Controllers
             decimal bookingPrice = decimal.Parse(price);
             var user =await _userManager.FindByEmailAsync(User.Identity.Name);
             Vehicle selectedVehicel = _service.GetVehicleById(vehicleId);
-            Random random = new Random();
+            Random random = new Random();  // My app is not huge so I went with Rand instead of Guid
             var ran = random.Next();
             var vm = new VehicleModel
             {
