@@ -31,8 +31,8 @@ namespace RentACarApp.Models
         [Required(ErrorMessage = "Please Enter Vehicle Rate Per Day")]
         [Display(Name = "Vehicle Rate")]
         public decimal RatePerDay { get; set; }
-
-        public virtual Status VehicleStatus { get; set; }
+             
+        public int StatusId { get; set; }
         public int LocationId { get; set; }
     }
 }
